@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -11,6 +13,9 @@ public class Main {
     static int N=0;
     static int MAX=20;
     static LocalDate[] fechas = new LocalDate[MAX];
+    static int ciclos = 0; //ciclos que tomo la ultima busqueda
+    //variable local de la fecha, para que se pueda usar en todos los metodos
+    static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy").withResolverStyle(ResolverStyle.STRICT);
     
     public static void main(String[] args) {
         int opcion;
@@ -213,6 +218,48 @@ public class Main {
         System.out.println("Fecha insertada");
     }
 
+    //busqueda lineal optimizada, lo hice asi para que se pueda usar en eliminar y modificar
+    //solo faltaria eliminar
+    public static int buscarLineal(LocalDate v) {
+        ciclos = 0;
+        for (int i = 0; i <= N; i++) {
+            ciclos++;
+            if (v.isEqual(fechas[i])) {
+                return i;
+            }
+            if (fechas[i].isAfter(v)) {
+                return -1;
+            }
+        }
+        return -1;
+    }
+
+    //elimina una fecha usando una busqueda ya hecha sin pedir datos ni imprimir
+    public static int eliminarFecha(LocalDate v) {
+        int r = buscarLineal(v); //tambien se puede usar buscarBinario, but solo pide algun metodo de busqueda ya hecho
+        if (r == -1) {
+            return r;
+        }
+        for (int i = r; i < N; i++) {
+            fechas[i] = fechas[i + 1];
+        }
+        fechas[N] = null;
+        N = N - 1;
+        return r;
+    }
+
+    public static LocalDate leerFecha(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = sc.nextLine().trim();
+            try {
+                return LocalDate.parse(texto, formato);
+            } catch (DateTimeParseException e) {
+                System.out.println("Fecha invalida, use el formato dd/MM/yyyy con una fecha real");
+            }
+        }
+    }
+  
     //Falta esto, pq el profe quiere que se llame al metodo de buscar ya hecho y medio me perdi
     //actualizacion creo que ya le entendi
     //Mentira no entendi, y no quiero modificar el buscar, o maybe hacer otro buscar o no c
@@ -221,6 +268,7 @@ public class Main {
         if(N==0) {
             System.out.println("Arreglo vacio");
         } else{
+
         }
     }
 
@@ -231,12 +279,9 @@ public class Main {
             LocalDate v = leerFecha("Ingrese la fecha a modificar (dd/MM/yyyy): ");
             int r = eliminarFecha(v); //se busca y se quita la fecha vieja
             if (r == -1) {
-                System.out.println("No se pudo localizar la fecha...");
-
+                System.out.println("No se pudo localizar la fecha, no procede la operacion");
             } else {
-                LocalDate nueva = leerFecha("Nuevo valor (dd/MM/yyyy): ");
-                int posicion = insertarFecha(nueva); //la nueva se inserta en su lugar (conserva el orden) como dijo luchana
-                System.out.println("Fecha modificada, quedo guardada en la localidad [" + (posicion + 1) + "]");
+                insertar(); //pide la nueva fecha y la inserta en su lugar (conserva el orden) como dice luchana
             }
         }
     }
