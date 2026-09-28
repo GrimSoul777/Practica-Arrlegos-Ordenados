@@ -216,6 +216,7 @@ public class Main {
     //Falta esto, pq el profe quiere que se llame al metodo de buscar ya hecho y medio me perdi
     //actualizacion creo que ya le entendi
     //Mentira no entendi, y no quiero modificar el buscar, o maybe hacer otro buscar o no c
+    //lol q mal
     public static void eliminar() {
         if(N==0) {
             System.out.println("Arreglo vacio");
@@ -227,6 +228,16 @@ public class Main {
         if (N==0) {
             System.out.println("Arreglo vacio");
         } else {
+            LocalDate v = leerFecha("Ingrese la fecha a modificar (dd/MM/yyyy): ");
+            int r = eliminarFecha(v); //se busca y se quita la fecha vieja
+            if (r == -1) {
+                System.out.println("No se pudo localizar la fecha...");
+
+            } else {
+                LocalDate nueva = leerFecha("Nuevo valor (dd/MM/yyyy): ");
+                int posicion = insertarFecha(nueva); //la nueva se inserta en su lugar (conserva el orden) como dijo luchana
+                System.out.println("Fecha modificada, quedo guardada en la localidad [" + (posicion + 1) + "]");
+            }
         }
     }
 
