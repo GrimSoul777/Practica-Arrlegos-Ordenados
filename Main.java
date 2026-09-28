@@ -73,11 +73,11 @@ public class Main {
         System.out.println();
         //FORMATO QUE PIDEN
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        N=0;
 
         if (N==0) {
         System.out.println("El arreglo ya ha sido inicializado");
         } else {
+            N=0;
             System.out.println("Los datos del arreglo han sido borrados completamente");
         }
     }
@@ -116,24 +116,33 @@ public class Main {
             sc.nextLine();
 
             System.out.println();
+            int ciclos=0;
+            int pos=0;
+            boolean encontrado = false;
             switch (op) {
                 case 1:
                     //Busqueda lineal optimizada
-                    int pos=0;
-                    int ciclos=0;
+                    pos=0;
+                    ciclos=0;
+                    encontrado=false;
                     for (int i=0; i<N; i++) {
                         ciclos++;
                         pos++;
                         if(buscarFecha.equals(fechas[i])) {
                             System.out.println("Fecha encontrada");
                             System.out.println("["+pos+"] "+fechas[i].format(formato));
+                            encontrado=true;
                             break;
                         }
                         if (fechas[i].isAfter(buscarFecha)) {
-                            System.out.println("No existe esa fecha en el arreglo");
                             break;
                         }
                     }
+
+                    if (encontrado==false) {
+                    System.out.println("No existe esa fecha en el arreglo");
+                    }
+
                     System.out.println();
                     System.out.println("Ciclos hechos: "+ciclos);
                     break;
@@ -141,10 +150,34 @@ public class Main {
                 case 2:
                     //Busqueda binaria
                     int inicio = 0;
-                    int fin = N;
-                    while (fin > inicio) {
+                    int fin = N-1;
+                    ciclos=0;
+                    pos=0;
+                    encontrado=false;
+                    while (fin >= inicio) {
+                        ciclos++;
+                        int p = (inicio + fin)/2;
 
+                        if(buscarFecha.equals(fechas[p])) {
+                            pos=p+1;
+                            System.out.println("Fecha encontrada");
+                            System.out.println("["+pos+"] "+fechas[p].format(formato));
+                            encontrado = true;
+                            break;
+                        }
+                        if(buscarFecha.isBefore(fechas[p])) {
+                            fin = p-1;
+                        } else {
+                            inicio = p+1;
+                        }
                     }
+
+                    if (encontrado==false) {
+                    System.out.println("No existe esa fecha en el arreglo");
+                    }
+
+                    System.out.println();
+                    System.out.println("Ciclos hechos: "+ciclos);
                     break;
             
                 default:
@@ -178,8 +211,11 @@ public class Main {
         N++;
 
         System.out.println("Fecha insertada");
-        }
+    }
 
+    //Falta esto, pq el profe quiere que se llame al metodo de buscar ya hecho y medio me perdi
+    //actualizacion creo que ya le entendi
+    //Mentira no entendi, y no quiero modificar el buscar, o maybe hacer otro buscar o no c
     public static void eliminar() {
         if(N==0) {
             System.out.println("Arreglo vacio");
