@@ -1,45 +1,205 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Scanner;
 
 //Esqueleto que hizo el emi prepa, buuuuuuuuuuuuuuu
+//FORMATO DE FECHA: dd/MM/yyyy
+
 public class Main {
-
-    public static DateTimeFormatter FORMATO = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private int n;
-    private LocalDate[] arreglo;
-
-    public Procesos_Fechas(int capacidad) {
-        arreglo = new LocalDate[capacidad];
-        n = 0;
+    static Scanner sc = new Scanner(System.in);
+    static int N=0;
+    static int MAX=20;
+    static LocalDate[] fechas = new LocalDate[MAX];
+    
+    public static void main(String[] args) {
+        int opcion;
+        do {
+            menu();
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar el buffer de entrada
+            switch (opcion) {
+                case 1:
+                    //Inicializar/Borrar arreglo
+                    inicializar();
+                    break;
+                case 2:
+                    // Mostrar fechas guardadas
+                    mostrar();
+                    break;
+                case 3:
+                    // Buscar fecha
+                    buscar();
+                    break;
+                case 4:
+                    // Insertar fecha
+                    insertar();
+                    break;
+                case 5:
+                    // Eliminar fecha
+                    eliminar();
+                    break;
+                case 6:
+                    // Modificar fecha
+                    modificar();
+                    break;
+                case 7:
+                    // Creditos
+                    creditos();
+                    break;
+                case 8:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opcion invalida. Intente nuevamente.");
+            }
+        } while (opcion != 8);
     }
 
-    //Inicializar / Borrar arreglo
-    public void Iniciar(){
-        n=0;
-    }
-    //Mostrar Arreglo
-    public void Mostrar(){
-    //Proceso mostrar arreglo
-    }
-    //BusquedaLineal
-    public int[] BuscarL(LocalDate fecha){
-        //Proceso busqueda lineal
-        return new int[1]; //return solo para que no marque rojo
-    }
-    //Busqueda Binaria
-    public int[] BuscarB(LocalDate fecha){
-        //Proceso busaqueda binaria
-        return new int[1]; //return solo para que no marque rojo
-    }
-    //Insertar
-    public int Insertar(LocalDate fecha){
-    //Proceso insertar fecha
-    return -1;//return solo para que no marque rojo 
-    }
-    //Eliminar
-    public void Eliminar(LocalDate fecha){
-    //Proceso eliminar fecha
+    public static void menu() {
+        System.out.println();
+        System.out.println("1. Inicializar/Borrar arreglo");
+        System.out.println("2. Mostrar fechas guardadas");
+        System.out.println("3. Buscar fecha");
+        System.out.println("4. Insertar fecha");
+        System.out.println("5. Eliminar fecha");
+        System.out.println("6. Modificar fecha");
+        System.out.println("7. Creditos");
+        System.out.println("8. Salir");
+        System.out.print("Ingrese una opcion: ");
     }
 
+    public static void inicializar() {
+        System.out.println();
+        //FORMATO QUE PIDEN
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        N=0;
+
+        if (N==0) {
+        System.out.println("El arreglo ya ha sido inicializado");
+        } else {
+            System.out.println("Los datos del arreglo han sido borrados completamente");
+        }
+    }
+
+    public static void mostrar() {
+        System.out.println();
+        if (N==0) {
+            System.out.println("Arreglo vacio");
+        } else {
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            int pos=0;
+            for (int i = 0; i < N; i++) {
+                pos=pos+1;
+                System.out.println("[" + pos + "] " + fechas[i].format(formato));
+            }
+        }
+    }   
+
+    public static void buscar() {
+        System.out.println();
+        if (N==0) {
+            System.out.println("Arreglo vacio");
+        } else {
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            System.out.println("Que fecha desea buscar (dd/MM/yyyy)?");
+            String fecha_buscar = sc.nextLine();
+            LocalDate buscarFecha = LocalDate.parse(fecha_buscar, formato);
+            System.out.println();
+
+            System.out.println("Que busqueda desea usar?");
+            System.out.println("1. Busqueda lineal optimizada");
+            System.out.println("2. Busqueda binaria");
+            System.out.println("Ingrese su opcion:");
+            int op = sc.nextInt();
+            sc.nextLine();
+
+            System.out.println();
+            switch (op) {
+                case 1:
+                    //Busqueda lineal optimizada
+                    int pos=0;
+                    int ciclos=0;
+                    for (int i=0; i<N; i++) {
+                        ciclos++;
+                        pos++;
+                        if(buscarFecha.equals(fechas[i])) {
+                            System.out.println("Fecha encontrada");
+                            System.out.println("["+pos+"] "+fechas[i].format(formato));
+                            break;
+                        }
+                        if (fechas[i].isAfter(buscarFecha)) {
+                            System.out.println("No existe esa fecha en el arreglo");
+                            break;
+                        }
+                    }
+                    System.out.println();
+                    System.out.println("Ciclos hechos: "+ciclos);
+                    break;
+
+                case 2:
+                    //Busqueda binaria
+                    int inicio = 0;
+                    int fin = N;
+                    while (fin > inicio) {
+
+                    }
+                    break;
+            
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        }
+    }
+
+    public static void insertar() {
+        if (N == MAX) {
+            System.out.println("El arreglo está lleno.");
+            return;
+        }
+        // Capturar fecha
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.print("Ingrese la nueva fecha (dd/MM/yyyy): ");
+        String fecha_nueva = sc.nextLine();
+
+        LocalDate nuevaFecha = LocalDate.parse(fecha_nueva, formato);
+
+        int posicion = 0;
+        while (posicion < N && fechas[posicion].isBefore(nuevaFecha)) {
+        posicion++;
+        }
+
+        for (int i = N - 1; i >= posicion; i--) {
+            fechas[i + 1] = fechas[i];
+        }
+        fechas[posicion] = nuevaFecha;
+        N++;
+
+        System.out.println("Fecha insertada");
+        }
+
+    public static void eliminar() {
+        if(N==0) {
+            System.out.println("Arreglo vacio");
+        } else{
+        }
+    }
+
+    public static void modificar() {
+        if (N==0) {
+            System.out.println("Arreglo vacio");
+        } else {
+        }
+    }
+
+    public static void creditos() {
+        System.out.println();
+        System.out.println("Materia:");
+        System.out.println("Estructura de datos");
+        System.out.println("Integrantes:");
+        System.out.println("NOMBRE                              MATRICULA");  //Aqui metan su nombre y matricula
+        System.out.println("Joshue Angel Regalado Martinez      25420019");
+    }
 }
