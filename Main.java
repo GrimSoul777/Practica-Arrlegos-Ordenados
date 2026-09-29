@@ -79,17 +79,17 @@ public class Main {
         //FORMATO QUE PIDEN
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        if (N==0) {
+        if (N==-1) {
         System.out.println("El arreglo ya ha sido inicializado");
         } else {
-            N=0;
+            N=-1;
             System.out.println("Los datos del arreglo han sido borrados completamente");
         }
     }
 
     public static void mostrar() {
         System.out.println();
-        if (N==0) {
+        if (N==-1) {
             System.out.println("Arreglo vacio");
         } else {
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -104,7 +104,7 @@ public class Main {
 
     public static void buscar() {
         System.out.println();
-        if (N==0) {
+        if (N==-1) {
             System.out.println("Arreglo vacio");
         } else {
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -193,7 +193,7 @@ public class Main {
     }
 
     public static void insertar() {
-        if (N == MAX) {
+        if (N == MAX-1) {
             System.out.println("El arreglo está lleno.");
             return;
         }
@@ -247,7 +247,8 @@ public class Main {
         N = N - 1;
         return r;
     }
-
+    
+    
     public static LocalDate leerFecha(String mensaje) {
         while (true) {
             System.out.print(mensaje);
@@ -259,7 +260,20 @@ public class Main {
             }
         }
     }
-  
+    public static int[] buscarlineal2(LocalDate fecha){
+        int ciclos = 0;
+            for (int i = 0; i < N; i++) {
+                ciclos++;
+                if (fechas[i].isEqual(fecha)) {
+                    return new int[] { i, ciclos };
+                }
+                if (fechas[i].isAfter(fecha)) {
+                    break;
+                }
+            }
+            return new int[] { -1, ciclos };
+    }
+
     //Falta esto, pq el profe quiere que se llame al metodo de buscar ya hecho y medio me perdi
     //actualizacion creo que ya le entendi
     //Mentira no entendi, y no quiero modificar el buscar, o maybe hacer otro buscar o no c
@@ -267,10 +281,19 @@ public class Main {
     public static void eliminar() {
         if(N==0) {
             System.out.println("Arreglo vacio");
-        } else{
+            return;
 
-        }
+        } 
+        LocalDate fecha = leerFecha("Fecha a eliminar (dd/MM/yyyy): ");
+        int pos = buscarlineal2(fecha)[0];
+        if (pos == -1) {
+        System.out.println("No se pudo localizar la fecha " + fecha.format(formato) + "; no procede la operacion.");
+        } else {
+        eliminarFecha(fecha);
+        System.out.println("Fecha " + fecha.format(formato) + " eliminada de la localidad " + pos + ".");
     }
+}
+
 
     public static void modificar() {
         if (N==0) {
@@ -293,5 +316,6 @@ public class Main {
         System.out.println("Integrantes:");
         System.out.println("NOMBRE                              MATRICULA");  //Aqui metan su nombre y matricula
         System.out.println("Joshue Angel Regalado Martinez      25420019");
+        System.out.println("Omar Emiliano Cuevas Peña           25420131");
     }
 }
