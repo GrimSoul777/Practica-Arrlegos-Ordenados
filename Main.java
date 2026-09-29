@@ -15,7 +15,7 @@ public class Main {
     static LocalDate[] fechas = new LocalDate[MAX];
     static int ciclos = 0; //ciclos que tomo la ultima busqueda
     //variable local de la fecha, para que se pueda usar en todos los metodos
-    static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy").withResolverStyle(ResolverStyle.STRICT);
+    static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
     public static void main(String[] args) {
         int opcion;
@@ -79,10 +79,10 @@ public class Main {
         //FORMATO QUE PIDEN
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        if (N==-1) {
+        if (N==0) {
         System.out.println("El arreglo ya ha sido inicializado");
         } else {
-            N=-1;
+            N=0;
             System.out.println("Los datos del arreglo han sido borrados completamente");
         }
     }
@@ -91,16 +91,13 @@ public class Main {
         System.out.println();
         if (N==-1) {
             System.out.println("Arreglo vacio");
-        } else {
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-            int pos=0;
-            for (int i = 0; i < N; i++) {
-                pos=pos+1;
-                System.out.println("[" + pos + "] " + fechas[i].format(formato));
-            }
+        return; }
+            
+            System.out.println("Contenido del arreglo (" + N + " de " + MAX + " localidades usadas):");
+        for (int i = 0; i < N; i++) {
+            System.out.printf("  Localidad %2d -> %s%n", i, fechas[i].format(formato));
         }
-    }   
+    }
 
     public static void buscar() {
         System.out.println();
@@ -319,3 +316,4 @@ public class Main {
         System.out.println("Omar Emiliano Cuevas Peña           25420131");
     }
 }
+//Hecho papus
