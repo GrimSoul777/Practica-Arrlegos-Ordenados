@@ -314,6 +314,7 @@ public class Main {
         System.out.println("NOMBRE                              MATRICULA");  //Aqui metan su nombre y matricula
         System.out.println("Joshue Angel Regalado Martinez      25420019");
         System.out.println("Omar Emiliano Cuevas Peña           25420131");
+        System.out.println("Zoe Valentina Morales García        25420058");
     }
 }
 //Hecho papusss
