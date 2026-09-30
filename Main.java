@@ -89,7 +89,7 @@ public class Main {
 
     public static void mostrar() {
         System.out.println();
-        if (N==-1) {
+        if (N==0) {
             System.out.println("Arreglo vacio");
         return; }
             
@@ -101,7 +101,7 @@ public class Main {
 
     public static void buscar() {
         System.out.println();
-        if (N==-1) {
+        if (N==0) {
             System.out.println("Arreglo vacio");
         } else {
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
